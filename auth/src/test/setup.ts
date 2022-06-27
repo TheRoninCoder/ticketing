@@ -9,6 +9,7 @@ declare global {
 
 // This run before all tests are executed
 let mongo: any;
+
 beforeAll(async () => {
   process.env.JWT_KEY = "yohomey";
 
@@ -29,8 +30,10 @@ beforeEach(async () => {
 });
 
 afterAll(async () => {
-  await mongo.stop();
   await mongoose.connection.close();
+  if (mongo) {
+    await mongo.stop();
+  }
 });
 
 global.signin = async () => {
