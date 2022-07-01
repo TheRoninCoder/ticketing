@@ -6,29 +6,31 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth 
+      app: auth
   template:
     metadata:
-      labels: 
+      labels:
         app: auth
     spec:
       containers:
         - name: auth
           image: dockerronin/auth
-          env: 
+          env:
+            - name: MONGO_URI
+              value: "mongodb://auth-mongo-srv:27017/auth"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
 ---
-apiVersion: v1 
+apiVersion: v1
 kind: Service
 metadata:
   name: auth-srv
 spec:
-  selector: 
-    app: auth 
+  selector:
+    app: auth
   ports:
     - name: auth
       protocol: TCP
