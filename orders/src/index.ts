@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wrapper";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/tikcet-updated-listener";
 
 const start = async () => {
   // Check ENV variable JWT_KEY exists
@@ -41,6 +43,10 @@ const start = async () => {
     // close down the listener if not available, signal discruption
     process.on("SIGNIT", () => natsWrapper.client.close());
     process.on("SIGNTERM", () => natsWrapper.client.close());
+
+    // Listeners
+    new TicketCreatedListener(natsWrapper.client).listen();
+    new TicketUpdatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
