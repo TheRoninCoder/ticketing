@@ -1,4 +1,5 @@
 import { natsWrapper } from "./nats-wrapper";
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
 
 const start = async () => {
   // Check ENV variable JWT_KEY exists
@@ -32,6 +33,8 @@ const start = async () => {
     // close down the listener if not available, signal discruption
     process.on("SIGNIT", () => natsWrapper.client.close());
     process.on("SIGNTERM", () => natsWrapper.client.close());
+
+    new OrderCreatedListener(natsWrapper.client).listen();
   } catch (err) {
     console.log(err);
   }
