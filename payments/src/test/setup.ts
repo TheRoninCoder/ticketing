@@ -11,6 +11,9 @@ declare global {
 // Use Mock version of NatsWrapper for testing
 jest.mock("../nats-wrapper");
 
+process.env.STRIPE_KEY =
+  "sk_test_51LSKB2IbA9gX6TUSYgnpqLmRwWlV4CA3tlDK3z8IDmKDzd4lKIScZmaGlzL3etjDPlnRSkBqzRDzPjzLwfuFxfB200CcHPfnvh";
+
 // This run before all tests are executed
 let mongo: any;
 
