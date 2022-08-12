@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 declare global {
   var signin: () => string[];
 }
-
+//
 // Use Mock version of NatsWrapper for testing
 jest.mock("../nats-wrapper");
 
